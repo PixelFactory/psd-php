@@ -1,0 +1,19 @@
+{
+  "name": "loginovilya/psd-php",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "LoginovIlya",
+      "email": "LoginovIlya@users.noreply.github.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "autoload": {
+    "psr-4":{
+      "Psd\\": "src/"
+    }
+  },
+  "require": {
+    "ext-imagick": "*"
+  }
+}
