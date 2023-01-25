@@ -1,6 +1,8 @@
 {
   "name": "pixelfactory/psd-php",
   "license": "MIT",
+  "description": "Library for reading psd file",
+  "keywords": ["psd", "photoshop", "image"],
   "authors": [
     {
       "name": "LoginovIlya",
