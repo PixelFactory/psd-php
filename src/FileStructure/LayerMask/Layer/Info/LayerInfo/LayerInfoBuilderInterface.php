@@ -2,7 +2,10 @@
 
 namespace Psd\FileStructure\LayerMask\Layer\Info\LayerInfo;
 
-interface LayerInfoBuilderInterface {
+use Psd\File\FileInterface;
+
+interface LayerInfoBuilderInterface
+{
     const KEY_ARTB = 'artb';
     const KEY_ARTD = 'artd';
     const KEY_ABDD = 'abdd';
@@ -26,7 +29,7 @@ interface LayerInfoBuilderInterface {
     const KEY_VSTK = 'vstk';
     const KEY_VSCG = 'vscg';
 
-    const NAME_ARTBOARD ='Artboard';
+    const NAME_ARTBOARD = 'Artboard';
     const NAME_BLEND_CLIPPING_ELEMENTS = 'BlendClippingElements';
     const NAME_BLEND_INTERIOR_ELEMENTS = 'BlendInteriorElements';
     const NAME_FILL_OPACITY = 'FillOpacity';
@@ -45,4 +48,6 @@ interface LayerInfoBuilderInterface {
     const NAME_VECTOR_STROKE = 'VectorStroke';
     const NAME_VECTOR_STROKECONTENT = 'VectorStrokeContent';
     const NAME_EMPTY_LAYER_INFO = 'Empty';
+
+    public function build(FileInterface $file, string $key): LayerInfo;
 }

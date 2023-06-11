@@ -4,10 +4,11 @@
 namespace Psd\Descriptor\Data;
 
 
-class DescriptorData {
-  protected ClassData $classData;
+class DescriptorData
+{
+    protected ClassData $classData;
 
-  protected array $data;
+    protected array $data;
 
     /**
      * @param $classData

@@ -6,6 +6,7 @@ use Psd\File\FileInterface;
 use Psd\FileStructure\Header\HeaderInterface;
 use Exception;
 use Psd\Image\ImageChannels\RgbaJson;
+use Psd\Image\ImageExport\Exports\ImageExportInterface;
 use Psd\Image\ImageExport\ImageExport;
 use Psd\Image\ImageFormat\ImageData\ImageDataBuilder;
 use Psd\Image\ImageFormat\ImageData\ImageDataBuilderInterface;
@@ -13,73 +14,89 @@ use Psd\Image\ImageMode\ImageMode;
 use Psd\Image\ImageMode\ImageModeInterface;
 use Psd\LazyExecuteProxy\Interfaces\ImageInterface;
 
-class Image implements ImageInterface {
-  protected FileInterface $file;
+class Image implements ImageInterface
+{
+    protected FileInterface $file;
 
-  protected HeaderInterface $header;
+    protected HeaderInterface $header;
 
-  protected ImageDataBuilderInterface $imageFormat;
+    protected ImageDataBuilderInterface $imageFormat;
 
-  protected ImageModeInterface $imageMode;
+    protected ImageModeInterface $imageMode;
 
-  protected RgbaJson $pixelData;
+    protected RgbaJson $pixelData;
 
-  public function __construct(FileInterface $file, HeaderInterface $header) {
-    $this->file = $file;
-    $this->header = $header;
+    public function __construct(FileInterface $file, HeaderInterface $header)
+    {
+        $this->file = $file;
+        $this->header = $header;
 
-    $this->imageFormat = $this->buildImageFormat($this->file, $this->header);
-    $this->imageMode = $this->buildImageMode($this->header);
-  }
-
-    public function skip(): void {
-    $this->file->ffseek($this->getEndPos());
-  }
-
-
-    public function getExporter(string $type) {
-    return ImageExport::buildImageExport($type, $this->header->getWidth(), $this->header->getHeight(), $this->getPixelData());
-  }
-
-  public function getPixelData(): RgbaJson {
-    if (!isset($this->pixelData)) {
-      throw new Exception('PixelData is undefined.');
+        $this->imageFormat = $this->buildImageFormat($this->file, $this->header);
+        $this->imageMode = $this->buildImageMode($this->header);
     }
 
-    return $this->pixelData;
-  }
+    public function skip(): void
+    {
+        $this->file->ffseek($this->getEndPos());
+    }
 
-  /**
-   * Parses the image and formats the image data.
-   */
-  public function parse(): void {
-    $compression = $this->file->readShort();
-    $this->parseImageData($compression);
-  }
 
-  /**
-   * Parses the image data based on the compression mode.
-   */
-  protected function parseImageData(int $compression): void {
-    $channelData = $this->imageFormat->build($compression)->parse();
+    /**
+     * @throws Exception
+     */
+    public function getExporter(string $type): ImageExportInterface
+    {
+        return ImageExport::buildImageExport($type, $this->header->getWidth(), $this->header->getHeight(), $this->getPixelData());
+    }
 
-    $this->pixelData = $this->imageMode->build(
-      $channelData,
-      $this->header->getChannels(),
-      $this->header->getNumPixels(),
-      $this->header->getChannelLength(),
-    )->combineChannel();
-  }
+    /**
+     * @throws Exception
+     */
+    public function getPixelData(): RgbaJson
+    {
+        if (!isset($this->pixelData)) {
+            throw new Exception('PixelData is undefined.');
+        }
 
-  protected function getEndPos(): int {
-    return $this->file->tell() + $this->header->getFileLength();
-  }
+        return $this->pixelData;
+    }
 
-  protected function buildImageMode(HeaderInterface $header): ImageModeInterface {
-    return new ImageMode($header);
-  }
+    /**
+     * Parses the image and formats the image data.
+     */
+    public function parse(): void
+    {
+        $compression = $this->file->readShort();
+        $this->parseImageData($compression);
+    }
 
-  protected function buildImageFormat(FileInterface $file, HeaderInterface $header): ImageDataBuilderInterface {
-    return new ImageDataBuilder($file, $header);
-  }
+    /**
+     * Parses the image data based on the compression mode.
+     */
+    protected function parseImageData(int $compression): void
+    {
+        $channelData = $this->imageFormat->build($compression)->parse();
+
+        $this->pixelData = $this->imageMode->build(
+            $channelData,
+            $this->header->getChannels(),
+            $this->header->getNumPixels(),
+            $this->header->getChannelLength(),
+        )->combineChannel();
+    }
+
+    protected function getEndPos(): int
+    {
+        return $this->file->tell() + $this->header->getFileLength();
+    }
+
+    protected function buildImageMode(HeaderInterface $header): ImageModeInterface
+    {
+        return new ImageMode($header);
+    }
+
+    protected function buildImageFormat(FileInterface $file, HeaderInterface $header): ImageDataBuilderInterface
+    {
+        return new ImageDataBuilder($file, $header);
+    }
 }

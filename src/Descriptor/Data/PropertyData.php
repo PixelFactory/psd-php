@@ -4,7 +4,8 @@
 namespace Psd\Descriptor\Data;
 
 
-class PropertyData {
+class PropertyData
+{
     protected ClassData $classData;
     protected string $id;
 

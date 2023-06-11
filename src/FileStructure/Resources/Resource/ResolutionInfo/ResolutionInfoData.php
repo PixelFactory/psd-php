@@ -2,7 +2,8 @@
 
 namespace Psd\FileStructure\Resources\Resource\ResolutionInfo;
 
-class ResolutionInfoData{
+class ResolutionInfoData
+{
     protected int $hRes;
     protected int $hResUnit;
     protected int $widthUnit;

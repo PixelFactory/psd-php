@@ -30,12 +30,12 @@ class Node implements NodeInterface
             } else {
                 $nodeData->addValue(new Layer(
                     $layer->getName(),
-                    $layer->getPosition()->top,
-                    $layer->getPosition()->right,
-                    $layer->getPosition()->bottom,
-                    $layer->getPosition()->left,
-                    $layer->getPosition()->width,
-                    $layer->getPosition()->height,
+                    $layer->getPosition()['top'],
+                    $layer->getPosition()['right'],
+                    $layer->getPosition()['bottom'],
+                    $layer->getPosition()['left'],
+                    $layer->getPosition()['width'],
+                    $layer->getPosition()['height'],
                     $layer,
                 ));
             }

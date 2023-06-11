@@ -2,9 +2,10 @@
 
 namespace Psd\FileStructure\Resources\Resource\Guides;
 
-class GuidesData {
-  protected int $location;
-  protected string $direction;
+class GuidesData
+{
+    protected int $location;
+    protected string $direction;
 
     /**
      * @param int $location

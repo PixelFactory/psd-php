@@ -15,6 +15,9 @@ class ReferenceParser implements ReferenceParserInterface
         $this->dataMapper = $dataMapper;
     }
 
+    /**
+     * @throws Exception
+     */
     public function parse(): array
     {
         $numItems = $this->dataMapper->parseInteger();

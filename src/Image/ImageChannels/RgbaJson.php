@@ -2,6 +2,8 @@
 
 namespace Psd\Image\ImageChannels;
 
+use Exception;
+
 final class RgbaJson
 {
     protected const JSON_TEMPLATE_LENGTH = 30;
@@ -17,7 +19,7 @@ final class RgbaJson
      */
     public function getPixelData(): string
     {
-        return substr($this->pixelData, 0, -1).']';
+        return substr($this->pixelData, 0, -1) . ']';
     }
 
     /**
@@ -26,12 +28,13 @@ final class RgbaJson
      * @param string $b
      * @param string $a
      * @return $this
+     * @throws Exception
      */
     public function addRgba(string $r, string $g, string $b, string $a): self
     {
-        $pixelData = '{"r":"'.$r.'","g":"'.$g.'","b":"'.$b.'","a":"'.$a.'"},';
+        $pixelData = '{"r":"' . $r . '","g":"' . $g . '","b":"' . $b . '","a":"' . $a . '"},';
 
-        if (strlen($pixelData) !== static::JSON_PIXEL_DATA_LENGTH) {
+        if (strlen($pixelData) !== self::JSON_PIXEL_DATA_LENGTH) {
             throw new Exception(sprintf(
                 'Wrong rgba format. %s',
                 $this->getInfoAboutColor(compact('r', 'g', 'b', 'a'))
@@ -50,7 +53,7 @@ final class RgbaJson
     protected function getInfoAboutColor(array $rgbaColors): string
     {
         foreach ($rgbaColors as $colorName => $colorValue) {
-            if (strlen($colorValue) !== static::JSON_COLOR_LENGTH) {
+            if (strlen($colorValue) !== self::JSON_COLOR_LENGTH) {
                 return $this->getColorMessage($colorName, $colorValue);
             }
         }
@@ -69,7 +72,7 @@ final class RgbaJson
             'Color "%s" too short. Length: "%s" !== "%s". Value: "%s"',
             $colorName,
             strlen($colorValue),
-            static::JSON_COLOR_LENGTH,
+            self::JSON_COLOR_LENGTH,
             $colorValue
         );
     }

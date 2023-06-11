@@ -2,7 +2,8 @@
 
 namespace Psd\FileStructure\Header;
 
-interface HeaderInterface {
+interface HeaderInterface
+{
     const HEADER_MODE_KEY_BITMAP = 0;
     const HEADER_MODE_KEY_GRAY_SCALE = 1;
     const HEADER_MODE_KEY_INDEXED_COLOR = 2;
@@ -40,16 +41,28 @@ interface HeaderInterface {
     ];
 
     public function parse(): void;
+
     public function modeName(): string;
+
     public function getVersion(): int;
+
     public function getChannels(): int;
+
     public function getDepth(): int;
+
     public function getMode(): int;
+
     public function getRows(): int;
+
     public function getCols(): int;
+
     public function getHeight(): int;
+
     public function getWidth(): int;
+
     public function getNumPixels(): int;
+
     public function getChannelLength(int $width = null, int $height = null): int;
+
     public function getFileLength(): int;
 }

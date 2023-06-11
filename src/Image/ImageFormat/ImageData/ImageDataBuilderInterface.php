@@ -3,6 +3,7 @@
 namespace Psd\Image\ImageFormat\ImageData;
 
 
-interface ImageDataBuilderInterface {
+interface ImageDataBuilderInterface
+{
     public function build(int $type): ImageDataBase;
 }

@@ -6,7 +6,8 @@ use Psd\FileStructure\LayerMask\Data\GlobalMask;
 use Psd\LazyExecuteProxy\Interfaces\LayerMaskInterface;
 use Psd\LazyExecuteProxy\LazyExecuteProxy;
 
-class LayerMaskProxy extends LazyExecuteProxy implements LayerMaskInterface {
+class LayerMaskProxy extends LazyExecuteProxy implements LayerMaskInterface
+{
     public function getLayers(): array
     {
         $this->parse();

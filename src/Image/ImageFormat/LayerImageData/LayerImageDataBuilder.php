@@ -8,53 +8,62 @@ use Psd\Image\ImageChannels\ImageChannels;
 use Psd\Image\ImageFormat\ImageFormatInterface;
 use Exception;
 
-class LayerImageDataBuilder implements LayerImageDataBuilderInterface {
-  protected FileInterface $file;
+class LayerImageDataBuilder implements LayerImageDataBuilderInterface
+{
+    protected FileInterface $file;
 
-  protected HeaderInterface $header;
+    protected HeaderInterface $header;
 
-  public function __construct(FileInterface $file, HeaderInterface $header) {
-    $this->file = $file;
-    $this->header = $header;
-  }
+    public function __construct(FileInterface $file, HeaderInterface $header)
+    {
+        $this->file = $file;
+        $this->header = $header;
+    }
 
-  public function build(int $type, ImageChannels $channelData): LayerImageDataBase {
-      if($type === ImageFormatInterface::IMAGE_FORMAT_RAW)
-      {
-          return $this->buildRaw($this->file, $this->header, $channelData);
-      }
+    public function build(int $type, ImageChannels $channelData): LayerImageDataBase
+    {
+        if ($type === ImageFormatInterface::IMAGE_FORMAT_RAW) {
+            return $this->buildRaw($this->file, $this->header, $channelData);
+        }
 
-      if($type === ImageFormatInterface::IMAGE_FORMAT_RLE)
-      {
-          return $this->buildRle($this->file, $this->header, $channelData);
-      }
+        if ($type === ImageFormatInterface::IMAGE_FORMAT_RLE) {
+            return $this->buildRle($this->file, $this->header, $channelData);
+        }
 
-      if($type === ImageFormatInterface::IMAGE_FORMAT_ZIP)
-      {
-          return $this->buildZip($this->file, $this->header, $channelData);
-      }
+        if ($type === ImageFormatInterface::IMAGE_FORMAT_ZIP) {
+            return $this->buildZip($this->file, $this->header, $channelData);
+        }
 
-      if($type === ImageFormatInterface::IMAGE_FORMAT_ZIPPREDICTION)
-      {
-          return $this->buildZipPrediction($this->file, $this->header, $channelData);
-      }
+        if ($type === ImageFormatInterface::IMAGE_FORMAT_ZIP_PREDICTION) {
+            return $this->buildZipPrediction($this->file, $this->header, $channelData);
+        }
 
-    throw new Exception(sprintf('Error type: %s', $type));
-  }
+        throw new Exception(sprintf('Error type: %s', $type));
+    }
 
-  protected function buildRaw(FileInterface $file, HeaderInterface $header, ImageChannels $channelData): LayerImageDataBase {
-    return new LayerRaw($file, $header, $channelData);
-  }
+    protected function buildRaw(FileInterface $file, HeaderInterface $header, ImageChannels $channelData): LayerImageDataBase
+    {
+        return new LayerRaw($file, $header, $channelData);
+    }
 
-  protected function buildRle(FileInterface $file, HeaderInterface $header, ImageChannels $channelData): LayerImageDataBase {
-    return new LayerRle($file, $header, $channelData);
-  }
+    protected function buildRle(FileInterface $file, HeaderInterface $header, ImageChannels $channelData): LayerImageDataBase
+    {
+        return new LayerRle($file, $header, $channelData);
+    }
 
-  protected function buildZip(FileInterface $file, HeaderInterface $header, ImageChannels $channelData): LayerImageDataBase {
-    throw new Error('ZIP layer image compression not supported yet.');
-  }
+    /**
+     * @throws Exception
+     */
+    protected function buildZip(FileInterface $file, HeaderInterface $header, ImageChannels $channelData): LayerImageDataBase
+    {
+        throw new Exception('ZIP layer image compression not supported yet.');
+    }
 
-  protected function buildZipPrediction(FileInterface $file, HeaderInterface $header, ImageChannels $channelData): LayerImageDataBase {
-    throw new Error('ZipPrediction layer image compression not supported yet.');
-  }
+    /**
+     * @throws Exception
+     */
+    protected function buildZipPrediction(FileInterface $file, HeaderInterface $header, ImageChannels $channelData): LayerImageDataBase
+    {
+        throw new Exception('ZipPrediction layer image compression not supported yet.');
+    }
 }

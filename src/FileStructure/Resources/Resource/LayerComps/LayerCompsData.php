@@ -2,10 +2,11 @@
 
 namespace Psd\FileStructure\Resources\Resource\LayerComps;
 
-class LayerCompsData {
-       protected $id;
-       protected $name;
-       protected $capturedInfo;
+class LayerCompsData
+{
+    protected $id;
+    protected $name;
+    protected $capturedInfo;
 
     /**
      * @param $id

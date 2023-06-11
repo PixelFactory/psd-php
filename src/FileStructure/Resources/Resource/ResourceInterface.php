@@ -2,6 +2,7 @@
 
 namespace Psd\FileStructure\Resources\Resource;
 
-interface ResourceInterface {
+interface ResourceInterface
+{
     public function parse(): ResourceBase;
 }

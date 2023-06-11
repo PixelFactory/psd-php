@@ -4,9 +4,10 @@
 namespace Psd\Descriptor\Data;
 
 
-class EnumData{
-  protected string $type;
-  protected string $value;
+class EnumData
+{
+    protected string $type;
+    protected string $value;
 
     /**
      * @param string $type

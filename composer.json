@@ -16,6 +16,10 @@
     }
   },
   "require": {
-    "ext-imagick": "*"
+    "ext-imagick": "*",
+    "ext-iconv": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
   }
 }

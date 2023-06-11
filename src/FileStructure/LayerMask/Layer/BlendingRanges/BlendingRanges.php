@@ -4,52 +4,55 @@ namespace Psd\FileStructure\LayerMask\Layer\BlendingRanges;
 
 use Psd\File\FileInterface;
 
-class BlendingRanges implements BlendingRangesInterface {
-  protected FileInterface $file;
+class BlendingRanges implements BlendingRangesInterface
+{
+    protected FileInterface $file;
 
-  protected array $blendingRanges;
+    protected array $blendingRanges;
 
-  public function __construct(FileInterface $file) {
-    $this->file = $file;
-  }
-
-  public function parse(): void {
-    $length = $this->file->readInt();
-    if ($length === 0) {
-      return;
+    public function __construct(FileInterface $file)
+    {
+        $this->file = $file;
     }
 
-    $grey = [
-      'source' => [
-        'black' => [$this->file->readByte(), $this->file->readByte()],
-        'white' => [$this->file->readByte(), $this->file->readByte()],
-      ],
-      'dest' => [
-        'black' => [$this->file->readByte(), $this->file->readByte()],
-        'white' => [$this->file->readByte(), $this->file->readByte()],
-      ],
-    ];
+    public function parse(): void
+    {
+        $length = $this->file->readInt();
+        if ($length === 0) {
+            return;
+        }
 
-    $numChannels = ($length - 8) / 8;
+        $grey = [
+            'source' => [
+                'black' => [$this->file->readByte(), $this->file->readByte()],
+                'white' => [$this->file->readByte(), $this->file->readByte()],
+            ],
+            'dest' => [
+                'black' => [$this->file->readByte(), $this->file->readByte()],
+                'white' => [$this->file->readByte(), $this->file->readByte()],
+            ],
+        ];
 
-    $channels = [];
+        $numChannels = ($length - 8) / 8;
 
-    for ($i = 0; $i < $numChannels; $i++) {
-      $channels[] = [
-        'source' => [
-          'black'=> [$this->file->readByte(), $this->file->readByte()],
-          'white' => [$this->file->readByte(), $this->file->readByte()],
-        ],
-        'dest' => [
-          'black' => [$this->file->readByte(), $this->file->readByte()],
-          'white' => [$this->file->readByte(), $this->file->readByte()],
-        ],
-      ];
+        $channels = [];
+
+        for ($i = 0; $i < $numChannels; $i++) {
+            $channels[] = [
+                'source' => [
+                    'black' => [$this->file->readByte(), $this->file->readByte()],
+                    'white' => [$this->file->readByte(), $this->file->readByte()],
+                ],
+                'dest' => [
+                    'black' => [$this->file->readByte(), $this->file->readByte()],
+                    'white' => [$this->file->readByte(), $this->file->readByte()],
+                ],
+            ];
+        }
+
+        $this->blendingRanges = [
+            'grey' => $grey,
+            'channels' => $channels,
+        ];
     }
-
-    $this->blendingRanges = [
-      'grey' => $grey,
-      'channels' => $channels,
-    ];
-  }
 }

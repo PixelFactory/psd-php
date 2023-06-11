@@ -28,6 +28,9 @@ class Header implements HeaderInterface
         $this->file = $file;
     }
 
+    /**
+     * @throws Exception
+     */
     public function parse(): void
     {
         if ($this->file->tell() !== 0) {
@@ -49,6 +52,9 @@ class Header implements HeaderInterface
         $this->file->ffseek($colorDataLen, true);
     }
 
+    /**
+     * @throws Exception
+     */
     public function modeName(): string
     {
         if (!isset($this->mode)) {
@@ -58,6 +64,9 @@ class Header implements HeaderInterface
         return static::HEADER_MODE[$this->mode];
     }
 
+    /**
+     * @throws Exception
+     */
     public function getVersion(): int
     {
         if (!isset($this->version)) {
@@ -67,6 +76,9 @@ class Header implements HeaderInterface
         return $this->version;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getChannels(): int
     {
         if (!isset($this->channels)) {
@@ -76,6 +88,9 @@ class Header implements HeaderInterface
         return $this->channels;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getDepth(): int
     {
         if (!isset($this->depth)) {
@@ -85,6 +100,9 @@ class Header implements HeaderInterface
         return $this->depth;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getMode(): int
     {
         if (!isset($this->mode)) {
@@ -94,6 +112,9 @@ class Header implements HeaderInterface
         return $this->mode;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getRows(): int
     {
         if (!isset($this->rows)) {
@@ -103,6 +124,9 @@ class Header implements HeaderInterface
         return $this->rows;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getCols(): int
     {
         if (!isset($this->cols)) {
@@ -112,16 +136,25 @@ class Header implements HeaderInterface
         return $this->cols;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getHeight(): int
     {
         return $this->getRows();
     }
 
+    /**
+     * @throws Exception
+     */
     public function getWidth(): int
     {
         return $this->getCols();
     }
 
+    /**
+     * @throws Exception
+     */
     public function getNumPixels(): int
     {
         $pixels = $this->getWidth() * $this->getHeight();
@@ -133,6 +166,9 @@ class Header implements HeaderInterface
         return $pixels;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getChannelLength(int $width = null, int $height = null): int
     {
         $widthData = $width ?? $this->getWidth();
@@ -148,11 +184,17 @@ class Header implements HeaderInterface
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function getFileLength(): int
     {
         return $this->getChannelLength() * $this->getChannels();
     }
 
+    /**
+     * @throws Exception
+     */
     protected function readSignature(): void
     {
         $sig = $this->file->readString(4);

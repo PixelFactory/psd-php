@@ -2,6 +2,8 @@
 
 namespace Psd\Node\Layer;
 
+use Psd\FileStructure\LayerMask\Layer\LayerInterface;
+
 class Layer
 {
     protected string $name;

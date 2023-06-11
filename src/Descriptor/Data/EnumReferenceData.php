@@ -2,10 +2,11 @@
 
 namespace Psd\Descriptor\Data;
 
-class EnumReferenceData {
-  protected ClassData $classData;
-  protected string $type;
-  protected string $value;
+class EnumReferenceData
+{
+    protected ClassData $classData;
+    protected string $type;
+    protected string $value;
 
     /**
      * @param ClassData $classData

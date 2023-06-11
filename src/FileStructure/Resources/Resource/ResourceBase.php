@@ -46,6 +46,9 @@ abstract class ResourceBase
         $this->file->ffseek($resourceEnd);
     }
 
+    /**
+     * @throws Exception
+     */
     public function getData()
     {
         if (!isset($this->data)) {
@@ -55,6 +58,9 @@ abstract class ResourceBase
         return $this->data;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getName(): string
     {
         if (!isset($this->name)) {

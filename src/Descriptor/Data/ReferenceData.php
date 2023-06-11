@@ -2,7 +2,8 @@
 
 namespace Psd\Descriptor\Data;
 
-class ReferenceData{
+class ReferenceData
+{
     protected string $type;
     protected $value;
 

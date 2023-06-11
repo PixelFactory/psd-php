@@ -41,7 +41,7 @@ final class ImageChannels
      */
     public function getChanelData(int $position): string
     {
-        return substr($this->channelsData, $position * static::CHANNEL_DATA_LENGTH, static::CHANNEL_DATA_LENGTH);
+        return substr($this->channelsData, $position * self::CHANNEL_DATA_LENGTH, self::CHANNEL_DATA_LENGTH);
     }
 
     /**
@@ -75,7 +75,7 @@ final class ImageChannels
      */
     protected function validateChannelsData(string $channelsData): string
     {
-        if (strlen($channelsData) % static::CHANNEL_DATA_LENGTH === 0) {
+        if (strlen($channelsData) % self::CHANNEL_DATA_LENGTH === 0) {
             return $channelsData;
         }
 

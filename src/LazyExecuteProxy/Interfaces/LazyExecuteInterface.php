@@ -2,7 +2,9 @@
 
 namespace Psd\LazyExecuteProxy\Interfaces;
 
-interface LazyExecuteInterface {
+interface LazyExecuteInterface
+{
     public function parse(): void;
+
     public function skip(): void;
 }

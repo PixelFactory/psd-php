@@ -7,13 +7,13 @@ class FloatPointNumberData
 {
     const FLOAT_POINT_NUMBER_FORMAT = [
         'Angle' => '#Ang',
-        'Density'  => '#Rsl',
-        'Distance'  => '#Rlt',
-        'None'  => '#Nne',
-        'Percent'  => '#Prc',
-        'Pixels'  => '#Pxl',
+        'Density' => '#Rsl',
+        'Distance' => '#Rlt',
+        'None' => '#Nne',
+        'Percent' => '#Prc',
+        'Pixels' => '#Pxl',
         'Millimeters' => '#Mlm',
-        'Points'  => '#Pnt',
+        'Points' => '#Pnt',
     ];
 
     protected string $id;

@@ -7,14 +7,19 @@ use Exception;
 use Psd\Image\ImageExport\Exports\ImageExportInterface;
 use Psd\Image\ImageExport\Exports\Png;
 
-class ImageExport {
+class ImageExport
+{
     const EXPORT_FORMAT_PNG = 'png';
 
-  static function buildImageExport(string $type, int $width, int $height, RgbaJson $pixelData): ImageExportInterface {
-      if($type === static::EXPORT_FORMAT_PNG) {
-          return new Png($width, $height, $pixelData);
-      }
+    /**
+     * @throws Exception
+     */
+    static function buildImageExport(string $type, int $width, int $height, RgbaJson $pixelData): ImageExportInterface
+    {
+        if ($type === static::EXPORT_FORMAT_PNG) {
+            return new Png($width, $height, $pixelData);
+        }
 
-      throw new Exception(sprintf('Error type: %s', $type));
-  }
+        throw new Exception(sprintf('Error type: %s', $type));
+    }
 }

@@ -4,9 +4,10 @@
 namespace Psd\Descriptor\Data;
 
 
-class ClassData {
-  protected string $name;
-  protected string $id;
+class ClassData
+{
+    protected string $name;
+    protected string $id;
 
     /**
      * @return string

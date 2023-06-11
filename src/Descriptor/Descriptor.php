@@ -11,71 +11,79 @@ use Psd\Descriptor\Parsers\ReferenceParser\ReferenceParser;
 use Psd\File\FileInterface;
 use Exception;
 
-class Descriptor implements DescriptorInterface {
-  private FileInterface $file;
+class Descriptor implements DescriptorInterface
+{
+    private FileInterface $file;
 
-  private DataMapperInterface $dataMapper;
+    private DataMapperInterface $dataMapper;
 
-  private ItemParserInterface $itemParser;
+    private ItemParserInterface $itemParser;
 
-  public function __construct(FileInterface $file) {
-    $this->file = $file;
+    public function __construct(FileInterface $file)
+    {
+        $this->file = $file;
 
-    $this->dataMapper = new DataMapper($this->file);
-    $this->itemParser = new ItemParser(
-        $this->dataMapper,
-        new ReferenceParser($this->dataMapper),
-    );
-  }
-
-  /**
-   * Parses the Descriptor at the current location in the file.
-   */
-  public function parse(): DescriptorData {
-    $descriptor = (new DescriptorData())
-        ->setClassData($this->dataMapper->parseClass())
-        ->setData([]);
-
-    $numItems = $this->file->readInt();
+        $this->dataMapper = new DataMapper($this->file);
+        $this->itemParser = new ItemParser(
+            $this->dataMapper,
+            new ReferenceParser($this->dataMapper),
+        );
+    }
 
     /**
-     * Each item consists of a key/value combination, which is why our
-     * descriptor is stored as an object instead of an array at the root.
+     * Parses the Descriptor at the current location in the file.
+     * @throws Exception
      */
-    for ($i = 0; $i < $numItems; $i += 1) {
-      $id = $this->dataMapper->parseId();
-      $type = $this->dataMapper->parseItemType();
+    public function parse(): DescriptorData
+    {
+        $descriptor = (new DescriptorData())
+            ->setClassData($this->dataMapper->parseClass())
+            ->setData([]);
 
-      if ($type === ItemParserInterface::ITEM_TYPE_VLLS) {
-          $descriptor->addData($id, $this->parseItems());
-      } else if ($type === ItemParserInterface::ITEM_TYPE_OBJC || $type === ItemParserInterface::ITEM_TYPE_GLBO) {
-          $descriptor->addData($id, (new Descriptor($this->file))->parse());
-      } else {
-          $descriptor->addData($id, $this->itemParser->parse($type));
-      }
+        $numItems = $this->file->readInt();
+
+        /**
+         * Each item consists of a key/value combination, which is why our
+         * descriptor is stored as an object instead of an array at the root.
+         */
+        for ($i = 0; $i < $numItems; $i += 1) {
+            $id = $this->dataMapper->parseId();
+            $type = $this->dataMapper->parseItemType();
+
+            if ($type === ItemParserInterface::ITEM_TYPE_VLLS) {
+                $descriptor->addData($id, $this->parseItems());
+            } else if ($type === ItemParserInterface::ITEM_TYPE_OBJC || $type === ItemParserInterface::ITEM_TYPE_GLBO) {
+                $descriptor->addData($id, (new Descriptor($this->file))->parse());
+            } else {
+                $descriptor->addData($id, $this->itemParser->parse($type));
+            }
+        }
+
+        return $descriptor;
     }
 
-    return $descriptor;
-  }
+    /**
+     * @throws Exception
+     */
+    protected function parseItems(): array
+    {
+        $count = $this->dataMapper->parseInteger();
+        $items = [];
 
-  protected function parseItems(): array {
-    $count = $this->dataMapper->parseInteger();
-    $items = [];
+        for ($i = 0; $i < $count; $i++) {
+            $type = $this->dataMapper->parseItemType();
 
-    for ($i = 0; $i < $count; $i++) {
-      $type = $this->dataMapper->parseItemType();
+            if ($type === ItemParserInterface::ITEM_TYPE_VLLS) {
+                throw new Exception('Recursive data');
+            }
 
-      if ($type === ItemParserInterface::ITEM_TYPE_VLLS) {
-        throw new Exception('Recursive data');
-      }
+            if ($type === ItemParserInterface::ITEM_TYPE_OBJC || $type === ItemParserInterface::ITEM_TYPE_GLBO) {
+                $items[] = (new Descriptor($this->file))->parse();
+            } else {
+                $items[] = $this->itemParser->parse($type);
+            }
+        }
 
-      if ($type === ItemParserInterface::ITEM_TYPE_OBJC || $type === ItemParserInterface::ITEM_TYPE_GLBO) {
-        $items[] = (new Descriptor($this->file))->parse();
-      } else {
-        $items[] = $this->itemParser->parse($type);
-      }
+        return $items;
     }
-
-    return $items;
-  }
 }

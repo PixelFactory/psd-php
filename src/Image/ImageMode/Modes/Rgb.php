@@ -5,26 +5,29 @@ namespace Psd\Image\ImageMode\Modes;
 use Exception;
 use Psd\Image\ImageChannels\RgbaJson;
 
-class Rgb extends ImageModeBase {
-  public function initChannelsInfo(int $channels): void {
-    $channelsInfo = [
-      [ 'id' => 0 ],
-      [ 'id' => 1 ],
-      [ 'id' => 2 ],
-    ];
+class Rgb extends ImageModeBase
+{
+    public function initChannelsInfo(int $channels): void
+    {
+        $channelsInfo = [
+            ['id' => 0],
+            ['id' => 1],
+            ['id' => 2],
+        ];
 
-    if ($channels === 4) {
-      $channelsInfo[] = [ 'id' => -1 ];
+        if ($channels === 4) {
+            $channelsInfo[] = ['id' => -1];
+        }
+
+        $this->channelsInfo = $channelsInfo;
     }
 
-    $this->channelsInfo = $channelsInfo;
-  }
-
-    public function combineChannel(): RgbaJson {
+    public function combineChannel(): RgbaJson
+    {
         $rgbChannels = array_filter(
-            array_map(static function($ch) {
+            array_map(static function ($ch) {
                 return $ch['id'];
-            }, $this->channelsInfo), static function($ch) {
+            }, $this->channelsInfo), static function ($ch) {
             return $ch >= -1;
         });
 
@@ -56,6 +59,6 @@ class Rgb extends ImageModeBase {
             $this->pixelData->addRgba($r, $g, $b, $a);
         }
 
-    return $this->pixelData;
-  }
+        return $this->pixelData;
+    }
 }

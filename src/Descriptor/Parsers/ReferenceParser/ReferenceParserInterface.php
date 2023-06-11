@@ -2,7 +2,8 @@
 
 namespace Psd\Descriptor\Parsers\ReferenceParser;
 
-interface ReferenceParserInterface {
+interface ReferenceParserInterface
+{
     const REFERENCE_TYPE_PROP = 'prop';
     const REFERENCE_TYPE_CLSS = 'Clss';
     const REFERENCE_TYPE_ENMR = 'Enmr';

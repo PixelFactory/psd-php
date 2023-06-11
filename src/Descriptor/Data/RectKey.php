@@ -12,9 +12,10 @@ namespace Psd\Descriptor\Data;
  *   Btom: 10,
  *   Rght: 10
  */
-interface RectKey {
-  const LEFT = 'Left';
-  const TOP = 'Top ';
-  const RIGHT = 'Rght';
-  const BOTTOM = 'Btom';
-};
+interface RectKey
+{
+    const LEFT = 'Left';
+    const TOP = 'Top ';
+    const RIGHT = 'Rght';
+    const BOTTOM = 'Btom';
+}

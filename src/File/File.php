@@ -8,7 +8,6 @@ use SplFileObject;
 /**
  * An extension of the built-in Php File class that adds numerous helpers for
  * reading/writing binary data.
- *
  */
 class File extends SplFileObject implements FileInterface
 {
@@ -86,12 +85,10 @@ class File extends SplFileObject implements FileInterface
     }
 
     /**
-     * @param $method
-     * @param $params
-     *
+     * @param $formatKey
+     * @param null $convertL2B
      * @return mixed
      *
-     * @throws Exception
      */
     protected function getData($formatKey, $convertL2B = null)
     {
@@ -275,9 +272,8 @@ class File extends SplFileObject implements FileInterface
 
 
     /**
-     * @param int $offset
-     * @param int $whence
-     *
+     * @param int $amt
+     * @param bool $rel
      * @return int
      *
      * @throws Exception

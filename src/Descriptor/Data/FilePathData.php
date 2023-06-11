@@ -4,7 +4,8 @@
 namespace Psd\Descriptor\Data;
 
 
-class FilePathData {
+class FilePathData
+{
     protected string $sig;
     protected string $path;
 

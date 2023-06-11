@@ -6,39 +6,41 @@ use Psd\FileStructure\Header\HeaderInterface;
 use Psd\Image\ImageChannels\ImageChannels;
 use Psd\Image\ImageChannels\RgbaJson;
 
-abstract class ImageModeBase {
-  protected HeaderInterface $header;
+abstract class ImageModeBase
+{
+    protected HeaderInterface $header;
 
-  protected RgbaJson $pixelData;
+    protected RgbaJson $pixelData;
 
-  protected ImageChannels $channelData;
+    protected ImageChannels $channelData;
 
-  protected array $channelsInfo;
+    protected array $channelsInfo;
 
-  protected int $numPixels;
+    protected int $numPixels;
 
-  protected int $channelLength;
+    protected int $channelLength;
 
-  protected int $channels;
+    protected int $channels;
 
-  public function __construct(
-    HeaderInterface $header,
-    ImageChannels $channelData,
-    int $channels,
-    int $numPixels,
-    int $channelLength
-  ) {
-    $this->header = $header;
-    $this->pixelData = new RgbaJson();
-    $this->channelData = $channelData;
-    $this->numPixels = $numPixels;
-    $this->channelLength = $channelLength;
-    $this->channels = $channels;
+    public function __construct(
+        HeaderInterface $header,
+        ImageChannels   $channelData,
+        int             $channels,
+        int             $numPixels,
+        int             $channelLength
+    )
+    {
+        $this->header = $header;
+        $this->pixelData = new RgbaJson();
+        $this->channelData = $channelData;
+        $this->numPixels = $numPixels;
+        $this->channelLength = $channelLength;
+        $this->channels = $channels;
 
-    $this->initChannelsInfo($channels);
-  }
+        $this->initChannelsInfo($channels);
+    }
 
-  abstract public function initChannelsInfo(int $channels): void;
+    abstract public function initChannelsInfo(int $channels): void;
 
-  abstract public function combineChannel(): RgbaJson;
+    abstract public function combineChannel(): RgbaJson;
 }
