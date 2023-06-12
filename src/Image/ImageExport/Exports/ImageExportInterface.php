@@ -8,5 +8,5 @@ interface ImageExportInterface
 {
     public function export(): Imagick;
 
-    public function save(string $fileName): void;
+    public function save(string $fileName): bool;
 }

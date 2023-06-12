@@ -15,8 +15,9 @@ use Psd\LazyExecuteProxy\Interfaces\ResourcesInterface;
 use Psd\LazyExecuteProxy\Proxies\ImageProxy;
 use Psd\LazyExecuteProxy\Proxies\LayerMaskProxy;
 use Psd\LazyExecuteProxy\Proxies\ResourcesProxy;
-use Psd\Node\Node;
 use Psd\Node\NodeInterface;
+use Psd\Shortcuts\Shortcuts;
+use Psd\Shortcuts\ShortcutsInterface;
 
 class Psd
 {
@@ -34,6 +35,8 @@ class Psd
 
     protected NodeInterface $node;
 
+    protected ShortcutsInterface $shortcuts;
+
     public function __construct(string $fileName)
     {
         $this->file = $this->buildFile($fileName);
@@ -41,6 +44,7 @@ class Psd
         $this->resources = $this->buildResources($this->file);
         $this->layerMask = $this->buildLayerMask($this->file, $this->header);
         $this->image = $this->buildImage($this->file, $this->header);
+        $this->shortcuts = $this->buildShortcuts();
     }
 
     public function parse(): bool
@@ -109,27 +113,9 @@ class Psd
         return $this->layerMask->getLayers();
     }
 
-    public function getTree(): NodeInterface
+    public function getShortcuts(): ShortcutsInterface
     {
-        if (!$this->parsed) {
-            $this->parse();
-        }
-
-        if (!isset($this->node)) {
-            $this->node = $this->buildNode($this->getLayers());
-        }
-
-        return $this->node;
-    }
-
-    public function getWidth(): int
-    {
-        return $this->header->getWidth();
-    }
-
-    public function getHeight(): int
-    {
-        return $this->header->getHeight();
+        return $this->shortcuts;
     }
 
     protected function buildFile(string $fileName): FileInterface
@@ -157,9 +143,9 @@ class Psd
         return new Image($file, $header);
     }
 
-    protected function buildNode(array $layers): NodeInterface
+    protected function buildShortcuts(): ShortcutsInterface
     {
-        return Node::build($layers);
+        return new Shortcuts($this);
     }
 
     protected function parseImage(): void

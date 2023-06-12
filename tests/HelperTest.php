@@ -10,8 +10,6 @@ class HelperTest extends TestCase
      */
     public function testPad2($number, $result)
     {
-
-        var_dump($number);
         $pad2Result = Helper::pad2($number);
 
         $this->assertEquals($pad2Result, $result);

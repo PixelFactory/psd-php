@@ -40,7 +40,7 @@ class Helper
         return min(max($num, $min), $max);
     }
 
-    public static function fixed(int $num, int $fractionDigits = 0): int
+    public static function fixed(float $num, int $fractionDigits = 0): int
     {
         return intval($num * $fractionDigits) * $fractionDigits;
     }

@@ -67,8 +67,8 @@ class Png implements ImageExportInterface
      * @throws ImagickPixelIteratorException
      * @throws ImagickPixelException
      */
-    public function save(string $fileName): void
+    public function save(string $fileName): bool
     {
-        file_put_contents($fileName, $this->export());
+        return file_put_contents($fileName, $this->export()) !== false;
     }
 }
